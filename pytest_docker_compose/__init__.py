@@ -167,6 +167,7 @@ class DockerComposePlugin:
     def _extract_network_info(
             cls,
             docker_containers: typing.Iterable[Container],
+            docker_project: Project
     ) -> typing.Dict[str, typing.List[NetworkInfo]]:
         """
         Generates :py:class:`NetworkInfo` instances corresponding to the
@@ -184,12 +185,12 @@ class DockerComposePlugin:
                 #
                 #   {'8181/tcp': [{'HostIp': '', 'HostPort': '8182'}]}
                 for container_port, port_configs
-                in container.get("HostConfig.PortBindings").items()
+                in container.ports.items()
 
                 for port_config in port_configs
             ]
 
-            for container in docker_containers
+            for container in docker_project.containers()
         }
 
 
