@@ -160,8 +160,8 @@ class DockerComposePlugin:
         docker_project.down(ImageType.none, False)
 
     @staticmethod
-    def _extract_network_info(docker_containers: typing.Iterable[Container]) \
-            -> typing.Dict[str, typing.List[NetworkInfo]]:
+    def _extract_network_info(docker_containers: typing.Iterable[Container], docker_project: Project
+    ) -> typing.Dict[str, typing.List[NetworkInfo]]:
         """
         Generates :py:class:`NetworkInfo` instances for each container and
         returns them in a dict of lists.
@@ -179,7 +179,7 @@ def create_network_info_for_container(container):
                         hostname=port_config["HostIp"] or "localhost",
                         host_port=port_config["HostPort"],)
             for container_port, port_configs in
-            container.get("HostConfig.PortBindings").items()
+            container.ports.items()
             for port_config in port_configs]
 
 
